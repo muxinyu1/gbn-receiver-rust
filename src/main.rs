@@ -7,7 +7,6 @@ use config::Config;
 use ack::Ack;
 
 mod config;
-mod pdu;
 mod ack;
 
 fn main() -> io::Result<()> {
