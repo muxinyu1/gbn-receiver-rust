@@ -3,14 +3,16 @@ use serde::{Deserialize, Serialize};
 #[derive(Debug, Deserialize, Serialize)]
 pub struct Config {
     port: i32,
-    data_size: i32
+    data_size: usize,
+    saved_filename: String
 }
 
 impl Config {
-    pub fn new(port: i32, data_size: i32) -> Self {
-        return Config {port, data_size};
-    }
     pub fn port(&self) -> i32 {
         return self.port;
     }
+    pub fn data_size(&self) -> usize {
+        return self.data_size;
+    }
+    pub fn saved_filename(&self) -> &str {return self.saved_filename.as_str()}
 }
