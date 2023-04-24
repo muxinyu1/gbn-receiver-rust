@@ -15,4 +15,8 @@ impl Config {
         return self.data_size;
     }
     pub fn saved_filename(&self) -> &str {return self.saved_filename.as_str()}
+
+    pub fn set_saved_filename(&mut self, new_filename: String) {
+        self.saved_filename = new_filename;
+    }
 }
