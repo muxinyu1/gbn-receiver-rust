@@ -4,7 +4,8 @@ use serde::{Deserialize, Serialize};
 pub struct Config {
     port: i32,
     data_size: usize,
-    saved_filename: String
+    saved_filename: String,
+    saved_folder: String
 }
 
 impl Config {
@@ -18,5 +19,9 @@ impl Config {
 
     pub fn set_saved_filename(&mut self, new_filename: String) {
         self.saved_filename = new_filename;
+    }
+
+    pub fn saved_folder(&self) -> &str{
+        return self.saved_folder.as_str();
     }
 }

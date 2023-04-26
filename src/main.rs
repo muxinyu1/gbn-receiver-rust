@@ -63,7 +63,7 @@ fn main() -> io::Result<()> {
         if recv_seq_num == 0 { // 第0帧包含了帧数、文件名信息
             let (filename, _frame_cnt) = util::get_filename_and_frame_cnt(&buffer);
             frame_cnt = _frame_cnt;
-            config.set_saved_filename(filename);
+            config.set_saved_filename(config.saved_folder().to_string() +  filename.as_str());
             println!("准备接收文件...\n文件名: {}, 分组数: {}", config.saved_filename(), frame_cnt);
             socket.send_to(&seq_num.to_le_bytes(), sender).expect(format!("发送ACK{}失败", seq_num).as_str());
             seq_num += 1;
