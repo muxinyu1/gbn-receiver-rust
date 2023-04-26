@@ -30,6 +30,9 @@ fn main() -> io::Result<()> {
     let mut frame_cnt = 0; // 一共需要接受多少帧
 
     loop {
+        if seq_num > frame_cnt {
+            break;
+        }
         println!("等待帧序列号为{}的分组...", seq_num);
         let (n, sender) = socket.recv_from(&mut buffer)?;
         println!("接收到来自{}, 大小为{}字节的分组", sender, n);
@@ -62,6 +65,8 @@ fn main() -> io::Result<()> {
             frame_cnt = _frame_cnt;
             config.set_saved_filename(filename);
             println!("准备接收文件...\n文件名: {}, 分组数: {}", config.saved_filename(), frame_cnt);
+            socket.send_to(&seq_num.to_le_bytes(), sender).expect(format!("发送ACK{}失败", seq_num).as_str());
+            seq_num += 1;
             continue;
         }
         
@@ -73,12 +78,9 @@ fn main() -> io::Result<()> {
         let data = &buffer[(I32_SIZE + USIZE_SIZE)..(I32_SIZE + USIZE_SIZE + data_size)];
         file.write_all(data)?;
         println!("写入成功!");
-        let ack_data = bincode::serialize(&Ack::new(seq_num)).unwrap();
-        socket.send_to(&ack_data, sender).expect("发送ACK失败");
+        let ack_data = seq_num.to_le_bytes();
+        socket.send_to(&ack_data, sender).expect(format!("发送ACK{}失败", seq_num).as_str());
         seq_num += 1;
-        if seq_num > frame_cnt {
-            break;
-        }
     }
     println!("文件已保存到{}", config.saved_filename());
     Ok(())
