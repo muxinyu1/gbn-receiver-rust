@@ -24,4 +24,8 @@ impl Config {
     pub fn saved_folder(&self) -> &str{
         return self.saved_folder.as_str();
     }
+
+    pub fn set_data_size(&mut self, data_size: usize) {
+        self.data_size = data_size;
+    }
 }

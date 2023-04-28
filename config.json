@@ -1,6 +1,6 @@
 {
     "port": 8746,
-    "data_size": 1024,
+    "data_size": 8192,
     "saved_filename": "filename",
     "saved_folder": "files"
 }
